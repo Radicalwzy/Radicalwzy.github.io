@@ -519,7 +519,7 @@ td {
 }
 .head,
 .info {
-  background-color: #000;
+  background-image: url('https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-08/a1d16857-079e-4368-816e-193e2ae3da39.jpg?x-oss-process=style/radicalwzy');
 }
 .head_logo {
   float: left;
@@ -1108,7 +1108,7 @@ a:hover {
 }
 .yue pre code,
 .yue pre tt {
-  color: rgba(0, 0, 0, 0.68);
+  color: red;
   border: none;
   background: none;
   padding: 0;
@@ -1897,27 +1897,3 @@ mark {
   color: #855c0a;
   margin: 0 4px;
 }
-
-      .head, .info,
-      .no-cover,
-      .navigation a,
-      .footer-rss,
-      .item .item-image {
-        background-color: #474b4c;
-      }
-
-      .item:hover h2,
-      .prev-post a:hover, .post-archives a:hover {
-        color: #474b4c;
-      }
-
-      .tags .tag:hover {
-        border-color: #474b4c;
-      }
-
-      .post-content a:hover {
-        color: #474b4c;
-        border-color: #474b4c;
-      }
-      
-    
