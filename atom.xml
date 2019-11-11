@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://radicalwzy.github.io/</id>
     <title>Radicalwzy</title>
-    <updated>2019-11-11T07:47:02.421Z</updated>
+    <updated>2019-11-11T07:51:49.066Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://radicalwzy.github.io/"/>
     <link rel="self" href="https://radicalwzy.github.io//atom.xml"/>
@@ -312,6 +312,118 @@ cat id_rsa.pub
 <p>四、验证是否成功配置</p>
 <pre><code class="language-xml">$ ssh -T git@github.com
 Hi Radicalwzy! You've successfully authenticated, but GitHub does not provide shell access.
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[对于axios的封装]]></title>
+        <id>https://radicalwzy.github.io//post/dui-yu-axios-de-feng-zhuang</id>
+        <link href="https://radicalwzy.github.io//post/dui-yu-axios-de-feng-zhuang">
+        </link>
+        <updated>2019-09-24T07:47:50.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-xml">import axios from 'axios';
+import qs from 'qs'
+import {Toast} from 'vant'
+
+// 全局配置
+// axios.defaults.headers.common[&quot;token&quot;] = &quot;&quot;
+// axios.defaults.headers.post[&quot;Content-Type&quot;] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.baseURL = 'http://47.93.251.248:6677';
+
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+  // 将后台的参数结果设置到response
+  let {data} = response;
+  response.data = data.data;
+  response.status = data.status;
+  response.statusText = data.message;
+  // 统一异常处理
+  if(data.status !== 200){
+    Toast(data.message);
+    return Promise.reject(data.message);
+  }
+  return response;
+}, function (error) {
+  Toast(&quot;网络异常&quot;)
+  return Promise.reject(error);
+});
+
+/**
+  get方式请求
+*/
+export function get (url, params) {
+  return axios({
+    method: 'get',
+    url,
+    params, // get 请求时带的参数
+    timeout: 10000,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+}
+
+/**
+ * 提交post请求 发送的数据为查询字符串，key=val&amp;key=val
+*/
+export function post(url,data){
+  return axios({
+    method:&quot;post&quot;,
+    url,
+    data:qs.stringify(data),
+    timeout:10000,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  })
+}
+/**
+ * 提交post请求 发送的数据为查询字符串，key=val&amp;key=val
+*/
+export function post_obj_array(url,data){
+  return axios({
+    method:&quot;post&quot;,
+    url,
+    data:qs.stringify(data,{allowDots:true}),
+    timeout:10000,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  })
+}
+
+/**
+ * 提交post请求 发送的数据为查询字符串，当参数为数组的时候适用该方法
+ * ids=1&amp;ids=2
+*/
+export function post_array(url,data){
+  return axios({
+    method:&quot;post&quot;,
+    url,
+    data:qs.stringify(data,{arrayFormat:&quot;repeat&quot;}),
+    timeout:10000,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  })
+}
+/**
+ * 提交post请求 发送的数据为json字符串
+*/
+export function post_json(url,data){
+  return axios({
+    method:&quot;post&quot;,
+    url,
+    data,
+    timeout:10000
+  })
+}
+
 
 </code></pre>
 ]]></content>
