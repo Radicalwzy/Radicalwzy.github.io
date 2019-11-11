@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://radicalwzy.github.io/</id>
     <title>Radicalwzy</title>
-    <updated>2019-11-11T03:47:55.905Z</updated>
+    <updated>2019-11-11T07:42:49.820Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://radicalwzy.github.io/"/>
     <link rel="self" href="https://radicalwzy.github.io//atom.xml"/>
@@ -10,6 +10,79 @@
     <logo>https://radicalwzy.github.io//images/avatar.png</logo>
     <icon>https://radicalwzy.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Radicalwzy</rights>
+    <entry>
+        <title type="html"><![CDATA[JS中的prototype、__proto__与constructor]]></title>
+        <id>https://radicalwzy.github.io//post/js-zhong-de-prototype__proto__-yu-constructor</id>
+        <link href="https://radicalwzy.github.io//post/js-zhong-de-prototype__proto__-yu-constructor">
+        </link>
+        <updated>2019-11-11T06:22:24.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="js中的prototype-__proto__与constructor">JS中的prototype、<code>__proto__</code>与constructor</h1>
+<p>​    要了解prototype、<code>__proto__</code>与constructor，首先要了解<u>对象</u>和<u>函数</u>是什么。</p>
+<p><u><em><strong>对象</strong></em></u></p>
+<ol>
+<li>
+<p>“JavaScript” 对象是变量的容器，但是通常我们认为对象是<strong>键值对</strong>的容器，键值对的通常写法是 name:value（键与值由冒号分割）。</p>
+</li>
+<li>
+<p>键值对在 javaScript 对象中通常称为<strong>对象属性</strong>。</p>
+</li>
+<li>
+<p>例子</p>
+</li>
+</ol>
+<pre><code class="language-xml">var peoson = {
+	name:&quot;zhangsan&quot;,
+	age:21,
+	sayName:function(){
+		return this.name;
+    }
+}
+</code></pre>
+<p><strong><u>函数</u></strong></p>
+<ol start="4">
+<li>
+<p>函数是一段代码，需要通过名字来进行调用。它能将一些数据（函数的参数）传递进去进行处理，然后返回一些数据（函数的返回值），也可以不返回数据。</p>
+</li>
+<li>
+<p>例子</p>
+</li>
+</ol>
+<pre><code class="language-xml">function sum(num1,num2){
+	return num1+num2;
+}
+</code></pre>
+<p><u><strong>对象与函数的联系</strong></u></p>
+<p>​       对象里面可以封装函数。</p>
+<p><strong>对象与函数的区别</strong>：</p>
+<p>​    1.对象里面包含的是而且只能是键值对（键值以“：”分割，值内容包括普通的变量和函数）。</p>
+<p>​    2. 函数里面可以封装操作过程，但是对象里面无法封装操作过程。</p>
+<p><strong>了解了对象与函数之后，我们先来做一个总结</strong></p>
+<p>1.<code>__proto__</code>和<code>constructor</code>属性是<strong>对象</strong>所独有的 ； <code>prototype</code>属性是<strong>函数</strong>所独有的 ， 因为函数也是一种对象，所以函数也拥有<code>__proto__</code>和<code>constructor</code>属性</p>
+<p>​		  2.<code>__proto__</code>属性的作用是：当你访问一个对象的属性，但是如果该对象内部属性并没有这个属性的话，那么就会去它的<code>__proto__</code>属性所指向的父对象中去找，如果父对象没有，那么继续在父对象的父对象中去找，一直找，直到<code>__proto__</code>属性终点null，如果再往上找，这时候会报错。这里引发了一个点，就是： 通过<code>__proto__</code>属性将对象连接起来的这条链路即我们所谓的<mark>原型链</mark>。</p>
+<p>​		3.<code>prototype</code>属性的<strong>作用</strong>就是让该函数所实例化的对象们都可以找到公用的属性和方法 ， 即<code>f1.__proto__ === Foo.prototype</code></p>
+<p>​		4.<code>constructor</code>属性的含义就是<strong>指向该对象的构造函数</strong>，所有函数（此时看成对象了）最终的构造函数都指向<strong>Function</strong>。</p>
+<hr>
+<p><strong>现在正式开始</strong>让我们从如下一个简单的例子展开讨论，并配以相关的图帮助理解：</p>
+<pre><code class="language-xml">function Foo() {...};
+let f1 = new Foo();
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/e6c21074-380a-4529-8f14-7de72a08bba9.png?/radicalwzy" alt=""></figure>
+<p>看到这图别怕，让我们一步步剖析，彻底搞懂它们！</p>
+<p><strong>图的说明</strong>：右下角为图例，红色箭头表示<code>__proto__</code>属性指向、绿色箭头表示<strong>prototype</strong>属性的指向、棕色实线箭头表示本身具有的<strong>constructor</strong>属性的指向，棕色虚线箭头表示继承而来的constructor属性的指向；蓝色方块表示对象，浅绿色方块表示函数（这里为了更好看清，Foo()仅代表是函数，并不是指执行函数Foo后得到的结果，图中的其他函数同理）。图的中间部分即为它们之间的联系，图的最左边即为例子代码。</p>
+<p><strong>__ proto __ 属性</strong></p>
+<p>​    首先，我们需要牢记两点：①<code>__proto__</code>和<strong>constructor</strong>属性是对象所独有的；② prototype属性是<strong>函数</strong>所独有的。但是由于JS中函数也是一种对象，所以函数也拥有<code>__proto__</code>和constructor属性，这点是致使我们产生困惑的很大原因之一。上图有点复杂，我们把它按照属性分别拆开，然后进行分析：</p>
+<figure data-type="image" tabindex="2"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/c0f5658c-1b12-440b-9367-23518cdbf76a.png?/radicalwzy" alt=""></figure>
+<p>​    第一，这里我们仅留下 <code>__proto__</code>属性，它是<strong>对象</strong>所独有的，可以看到<code>__proto__</code>属性都是由<strong>一个对象指向一个对象</strong>，即指向它们的原型对象（也可以理解为父对象），那么这个属性的作用是什么呢？它的作用就是当访问一个对象的属性时，如果该对象内部不存在这个属性，那么就会去它的<code>__proto__</code>属性所指向的那个对象（可以理解为父对象）里找，如果父对象也不存在这个属性，则继续往父对象的<code>__proto__</code>属性所指向的那个对象（可以理解为爷爷对象）里找，如果还没找到，则继续往上找…直到原型链顶端null（可以理解为原始人。。。），再往上找就相当于在null上取值，会报错（可以理解为，再往上就已经不是“人”的范畴了，找不到了，到此结束，null为原型链的终点），由以上这种通过<code>__proto__</code>属性来连接对象直到<strong>null</strong>的一条链即为我们所谓的<strong>原型链</strong>。</p>
+<p><strong>constructor属性</strong></p>
+<p>最后，我们来看一下 <strong><code>constructor</code></strong> 属性：</p>
+<figure data-type="image" tabindex="3"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/c9b65d5d-7eda-4d7b-b40c-19297c5c3058.png?/radicalwzy" alt=""></figure>
+<p>​		<strong>constructor</strong>属性也是对象才拥有的，它是从一个对象指向一个函数，含义就是指向该对象的构造函数，每个对象都有构造函数（本身拥有或继承而来，继承而来的要结合__proto__属性查看会更清楚点，如下图所示），从上图中可以看出Function这个对象比较特殊，它的构造函数就是它自己（因为Function可以看成是一个函数，也可以是一个对象），所有函数和对象最终都是由Function构造函数得来，所以constructor属性的终点就是Function这个函数。</p>
+<figure data-type="image" tabindex="4"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/06cb4702-0714-45d0-9889-4857d1fd1669.png?/radicalwzy" alt=""></figure>
+<p>​		这里解释一下上段中“每个对象都有构造函数”这句话。这里的意思是每个对象都可以找到其对应的constructor，因为创建对象的前提是需要有constructor，而这个constructor可能是对象自己本身显式定义的或者通过__proto__在原型链中找到的。而单从constructor这个属性来讲，只有prototype对象才有。每个函数在创建的时候，JS会同时创建一个该函数对应的prototype对象，而函数创建的对象.<strong>proto</strong> === 该函数.prototype，该函数.prototype.constructor===该函数本身，故通过函数创建的对象即使自己没有constructor属性，它也能通过__proto__找到对应的constructor，所以任何对象最终都可以找到其构造函数（null如果当成对象的话，将null除外）。如下：</p>
+<figure data-type="image" tabindex="5"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/1c163160-66e8-4af8-9afd-6c1d56e5d83b.png?/radicalwzy" alt=""></figure>
+<p>原文链接：https://blog.csdn.net/cc18868876837/article/details/81211729</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git和github]]></title>
         <id>https://radicalwzy.github.io//post/git-he-github</id>
