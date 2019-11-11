@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>git和github | Radicalwzy</title>
 <meta name="description" content="欢迎来到我的博客" />
-<link rel="shortcut icon" href="https://radicalwzy.github.io//favicon.ico?v=1573458707402">
+<link rel="shortcut icon" href="https://radicalwzy.github.io//favicon.ico?v=1573472320479">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -39,7 +39,7 @@
         
       
         
-          <a href="/archives">归档</a>
+          <a href="/archives">文章</a>
         
       
         
@@ -81,7 +81,7 @@
 <figure data-type="image" tabindex="1"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/913b2cb6-8827-4a88-b899-828906f8d38d.jpg?x-oss-process=style/radicalwzy" alt=""></figure>
 <h3 id="git安装">git安装</h3>
 <p>1.在linux下安装</p>
-<pre><code class="language-xml">下载v2.21.0版本
+<pre><code class="language-c">下载v2.21.0版本
 
 wget https://github.com/git/git/archive/v2.21.0.tar.gz
 
@@ -115,7 +115,7 @@ export PATH=$PATH:$GIT_HOME/bin
 <figure data-type="image" tabindex="2"><img src="https://radicalwzy.oss-cn-beijing.aliyuncs.com/image/2019-11-08/b4496a56-8a4f-4ab5-bb02-e8f550148fc2.png" alt=""></figure>
 <h2 id="git常用命令">git常用命令</h2>
 <h3 id="git配置">git配置</h3>
-<pre><code class="language-xml">设置邮箱、用户名：
+<pre><code class="language-c">设置邮箱、用户名：
 git config --global （基本不用，给整个计算机一次性设置）
 git config --system (给当前用户一次性设置)
 git config --local (给当前项目一次性设置)
@@ -128,26 +128,26 @@ git  config --local --unset user.name
 git  config --local --unset user.email
 </code></pre>
 <h3 id="创建版本库">创建版本库</h3>
-<pre><code class="language-xml">$ git init
+<pre><code class="language-c">$ git init
 </code></pre>
 <pre><code>	Git 使用 **git init** 命令来初始化一个 Git 仓库，Git 的很多命令都需要在 Git 的仓库中运行，所以 **git init** 是使用 Git 的第一个命令。
 </code></pre>
 <p>在执行完成 <strong>git init</strong> 命令后，Git 仓库会生成一个 .git 目录，该目录包含了资源的所有元数据，其他的项目目录保持不变</p>
 <h3 id="把文件添加到版本库">把文件添加到版本库</h3>
-<pre><code class="language-xml">$ git add readme.md
+<pre><code class="language-c">$ git add readme.md
 </code></pre>
 <p>​		提交readme.md从工作区到暂存区</p>
-<pre><code class="language-xml">git commit -m 'a new file' readme.md
+<pre><code class="language-c">git commit -m 'a new file' readme.md
 </code></pre>
 <p>​		 将目录下readme.md文件提交到仓库中。简单解释一下<code>git commit</code>命令，<code>-m</code>后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录。</p>
 <h3 id="仓库状态">仓库状态</h3>
-<pre><code class="language-xml">git status
+<pre><code class="language-c">git status
 </code></pre>
 <p>​		 <code>git status</code>命令可以让我们时刻掌握仓库当前的状态。但如果能看看具体修改了什么内容 可以使用</p>
-<pre><code class="language-xml">git diff readme.md
+<pre><code class="language-c">git diff readme.md
 </code></pre>
 <h3 id="查看提交记录">查看提交记录</h3>
-<pre><code class="language-xml">$ git log --pretty=oneline
+<pre><code class="language-c">$ git log --pretty=oneline
 8390d9be0d49ee031fc6bb02dbc0e9e4d7c98c48 (HEAD -&gt; master) change readme.md
 4fef495a12f10803c1b1a7f2b6e2544529c2390e a new file
 
@@ -163,21 +163,21 @@ git log 可以查看具体提交的作者和时间
 <pre><code>	`git log`命令显示从最近到最远的提交日志。  你看到的一大串类似8390d9be0d49的是`commit id`（版本号）。 在 Git中，用`HEAD`表示当前版本，也就是最新的提交`commit id`，上一个版本就是`HEAD^`，上上一个版本就是`HEAD^^`，当然往上100个版本写100个^比较容易数不过来，所以写成`HEAD~100`。 
 </code></pre>
 <p>​		 现在我们要把当前版本回退到上一个版本</p>
-<pre><code class="language-xml">$ git reset --hard HEAD^
+<pre><code class="language-c">$ git reset --hard HEAD^
 HEAD is now at 4fef495 a new file
 </code></pre>
 <p>​		然我们用git log再看看现在版本库的状态，最新的那个版本已经看不到了</p>
-<pre><code class="language-xml">$ git log --pretty=oneline
+<pre><code class="language-c">$ git log --pretty=oneline
 4fef495a12f10803c1b1a7f2b6e2544529c2390e (HEAD -&gt; master) a new file
 
 </code></pre>
 <p>​		如果你还想回去的话，如果上面的命令行窗口还没有被关掉，就可以顺着往上找，找到那个commit id 为8390d9be，版本号没必要写全，前几位就可以了，Git会自动去找。也不能只写前一两位，因为Git可能会找到多个版本号，就无法确定是哪一个了。</p>
-<pre><code class="language-xml">$ git reset --hard 8390d9be
+<pre><code class="language-c">$ git reset --hard 8390d9be
 HEAD is now at 8390d9b change readme.md
 
 </code></pre>
 <p>​		如果你回退到了某个版本，关掉了电脑，第二天后悔了，想恢复到新版本怎么办？找不到新版本的<code>commit id</code>怎么办？ git reflog记录了你每一次的命令</p>
-<pre><code class="language-xml">$ git reflog
+<pre><code class="language-c">$ git reflog
 8390d9b (HEAD -&gt; master) HEAD@{0}: reset: moving to 8390d9be
 4fef495 HEAD@{1}: reset: moving to HEAD^
 8390d9b (HEAD -&gt; master) HEAD@{2}: commit: change readme.md
@@ -186,17 +186,17 @@ HEAD is now at 8390d9b change readme.md
 </code></pre>
 <h3 id="修改与撤销">修改与撤销</h3>
 <p>​		git checkout -- file可以丢弃工作区的修改</p>
-<pre><code class="language-xml">命令git checkout -- readme.md意思是，把readme.md文件在工作区的修改全部撤销，即让这个文件回到最近一次git commit或git add时的状态。
+<pre><code class="language-c">命令git checkout -- readme.md意思是，把readme.md文件在工作区的修改全部撤销，即让这个文件回到最近一次git commit或git add时的状态。
 </code></pre>
 <h3 id="删除文件">删除文件</h3>
 <pre><code>	一般情况下，你通常直接在文件管理器中把没用的文件删了，或者用`rm`命令删了
 </code></pre>
-<pre><code class="language-xml">$ git rm 文件名
+<pre><code class="language-c">$ git rm 文件名
 $ git status:  删除已提交的文件(已经commit)删除之后，文件会被放到暂存区 
 $ git commit -m '彻底删除'
 
 </code></pre>
-<pre><code class="language-xml">如果操作系统删除  rm 文件名(不带git)
+<pre><code class="language-c">如果操作系统删除  rm 文件名(不带git)
 $ rm 文件名
 $ git status:  不在暂存区 直接到工作区。 
 $ git add 
@@ -218,47 +218,47 @@ $ git commit   (彻底删除)
 <p>​		 合并完分支后，可以删除<code>dev</code>分支。删除<code>dev</code>分支就是把<code>dev</code>指针给删掉，删掉后，我们就剩下了一条<code>master</code>分支：</p>
 <figure data-type="image" tabindex="7"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/be6fdf62-722e-4a08-88e7-fef98815bff6.png?/radicalwzy" alt=""></figure>
 <p>​		创建并切换到dev分支：</p>
-<pre><code class="language-xml">$ git checkout -b dev
+<pre><code class="language-c">$ git checkout -b dev
 Switched to a new branch 'dev'
 </code></pre>
 <p>​		对readme.md修改并提交：</p>
-<pre><code class="language-xml">$ git add readme.md
+<pre><code class="language-c">$ git add readme.md
 $ git commit -m '4 changed'
 </code></pre>
 <p>​		切换回master分支</p>
-<pre><code class="language-xml">$ git checkout master
+<pre><code class="language-c">$ git checkout master
 Switched to branch 'master'
 </code></pre>
 <p>​		查看readme.md发现刚才修改的并没有出来。因为刚才提交到dev分支上了，master分支提交点没有变</p>
 <figure data-type="image" tabindex="8"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/32cf0bfd-8c68-4f1f-8fd9-9f45720e6cc7.png?/radicalwzy" alt=""></figure>
 <p>​		合并dev分支到master：</p>
-<pre><code class="language-xml">$ git merge dev
+<pre><code class="language-c">$ git merge dev
 </code></pre>
 <p>​		合并后查看readme.md的内容，发现和dev分支的最新提交一样。</p>
-<pre><code class="language-xml">$ git merge dev
+<pre><code class="language-c">$ git merge dev
 Updating f6ae12d..91abbc1
 Fast-forward
  readme.md | 1 +
  1 file changed, 1 insertion(+)
 </code></pre>
 <p>​		合并后dev分支没有用了，就可以删除dev分支</p>
-<pre><code class="language-xml">$ git branch -d dev
+<pre><code class="language-c">$ git branch -d dev
 Deleted branch dev (was 91abbc1).
 </code></pre>
 <p>​		查看分支信息的话，使用git branch</p>
-<pre><code class="language-xml">$git branch
+<pre><code class="language-c">$git branch
 *即当前所在分支
 </code></pre>
 <h4 id="冲突问题">冲突问题</h4>
 <p>​		在实际的开发过程中，如果不同分支修改了同一文件的同一行内容，合并的时候就会造成冲突。比如我们创建了dev的分支，将a.txt文件修改并提交。而master分支上也对a.txt进行了修改，并且某一行都存在修改。那么在合并的时候就会出现冲突</p>
-<pre><code class="language-xml">$ git merge dev
+<pre><code class="language-c">$ git merge dev
 Auto-merging readme.md
 CONFLICT (content): Merge conflict in readme.md
 Automatic merge failed; fix conflicts and then commit the result.
 
 </code></pre>
 <p>​		这时候就需要查看readme.md文件，手动修改解决冲突</p>
-<pre><code class="language-xml">abc
+<pre><code class="language-c">abc
 cba
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 cccddd
@@ -272,31 +272,31 @@ ddd(dev)
 
 </code></pre>
 <p>​		然后再提交：</p>
-<pre><code class="language-xml">$ git add readme.md
+<pre><code class="language-c">$ git add readme.md
 $ git commit -m 'after confict'
 </code></pre>
 <p>​		进行合并：</p>
-<pre><code class="language-xml">$ git merge dev
+<pre><code class="language-c">$ git merge dev
 Already up to date.
 </code></pre>
 <h4 id="多人协作">多人协作</h4>
 <p>​		 当你从远程仓库克隆时，实际上Git自动把本地的<code>master</code>分支和远程的<code>master</code>分支对应起来了，并且，远程仓库的默认名称是<code>origin</code>。</p>
 <p>查看远程库的信息：</p>
-<pre><code class="language-xml">$ git remote
+<pre><code class="language-c">$ git remote
 origin
 </code></pre>
 <p>查看远程仓库详细信息：</p>
-<pre><code class="language-xml">$ git remote -v
+<pre><code class="language-c">$ git remote -v
 origin  https://github.com/Radicalwzy/customer_app.git (fetch)   (抓取)
 origin  https://github.com/Radicalwzy/customer_app.git (push)    (推送)
 
 </code></pre>
 <p>推送分支</p>
 <p>​		把该分支上的所有本地提交推送到远程库。推送时，要指定本地分支，这样，Git就会把该分支推送到远程库对应的远程分支上：</p>
-<pre><code>$ git push origin master
+<pre><code class="language-c">$ git push origin master
 </code></pre>
 <p>如果要推送其他分支，比如dev：</p>
-<pre><code>$ git push origin dev
+<pre><code class="language-c">$ git push origin dev
 </code></pre>
 <h1 id="github">github</h1>
 <h2 id="github介绍">github介绍</h2>
@@ -311,7 +311,7 @@ origin  https://github.com/Radicalwzy/customer_app.git (push)    (推送)
 <ol start="3">
 <li></li>
 </ol>
-<pre><code class="language-xml">wzy@DESKTOP-TVGID1C MINGW64 ~/Desktop/新建文件夹
+<pre><code class="language-c">wzy@DESKTOP-TVGID1C MINGW64 ~/Desktop/新建文件夹
 $ git init
 Initialized empty Git repository in C:/Users/79039/Desktop/新建文件夹/.git/
 
@@ -337,7 +337,7 @@ Total 3 (delta 0), reused 0 (delta 0)
 </code></pre>
 <p>​		这里有个坑要注意一下：如果在创建远程仓库的时候勾选了 Initialize this repository with a README（创建仓库的时候自动创建一个readme.md文件），你push的时候会报错： failed to push some refs to https://github.com/Radicalwzy/github-use.git</p>
 <p>​	  这是由于你新创建的那个仓库里面的README文件不在本地仓库目录中，这时我们可以通过以下命令先将内容合并一下：</p>
-<pre><code class="language-xml">$ git pull --rebase origin master
+<pre><code class="language-c">$ git pull --rebase origin master
 $ git push origin master
 这时候push就可以成功了
 </code></pre>
@@ -354,7 +354,7 @@ $ git push origin master
 <p>​		查看用户当前目录.ssh目录是否存在 id_rsa 和 id_rsa.pub文件，如果存在，说明已经有SSH Key</p>
 <figure data-type="image" tabindex="11"><img src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/23ddbaa6-caf4-4af2-b532-bdfa69d3ebae.png?/radicalwzy" alt=""></figure>
 <p>如果没有 需要生成一下</p>
-<pre><code class="language-xml">ssh-keygen -t rsa -C &quot;790395185@qq.com&quot;
+<pre><code class="language-c">ssh-keygen -t rsa -C &quot;790395185@qq.com&quot;
 cat id_rsa.pub
 //拷贝秘钥 ssh-rsa开头
 </code></pre>
@@ -362,7 +362,7 @@ cat id_rsa.pub
 <p>​		右上角头角点击Settings，左侧有个SSH and GPG keys ，然后点击</p>
 <p>New SSH key  取名后将拷贝的秘钥复制进去添加。</p>
 <p>四、验证是否成功配置</p>
-<pre><code class="language-xml">$ ssh -T git@github.com
+<pre><code class="language-c">$ ssh -T git@github.com
 Hi Radicalwzy! You've successfully authenticated, but GitHub does not provide shell access.
 
 </code></pre>
@@ -378,6 +378,15 @@ Hi Radicalwzy! You've successfully authenticated, but GitHub does not provide sh
         </div>
       </div>
     </article>
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>前一篇</h3>
+          <a href="https://radicalwzy.github.io//post/vuevuexvue-router-jin-xing-dao-hang-shou-wei">
+            <strong>vue+vuex+vue-router进行导航守卫</strong>
+          </a>
+        </div>
+      </section>
     
     
       <section class="post-section prev-post">
@@ -395,7 +404,7 @@ Hi Radicalwzy! You've successfully authenticated, but GitHub does not provide sh
     <footer class="footer">
   <div class="main">
     <a href="https://radicalwzy.github.io/">
-      <img class="avatar" src="https://radicalwzy.github.io//images/avatar.png?v=1573458707402" alt="Radicalwzy">
+      <img class="avatar" src="https://radicalwzy.github.io//images/avatar.png?v=1573472320479" alt="Radicalwzy">
     </a>
     <div class="footer__social">
       

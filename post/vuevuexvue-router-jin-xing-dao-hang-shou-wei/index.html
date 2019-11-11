@@ -1,0 +1,290 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>vue+vuex+vue-router进行导航守卫 | Radicalwzy</title>
+<meta name="description" content="欢迎来到我的博客" />
+<link rel="shortcut icon" href="https://radicalwzy.github.io//favicon.ico?v=1573472320479">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+<link rel="stylesheet" href="https://radicalwzy.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="vue+vuex+vue-router进行导航守卫 | Radicalwzy - Atom Feed" href="https://radicalwzy.github.io//atom.xml">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+  </head>
+  <body>
+    <div class="site-nav has-cover">
+      <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://radicalwzy.github.io/">
+        <span>Radicalwzy</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <nav class="info_nav">
+      
+        
+          <a href="/">首页</a>
+        
+      
+        
+          <a href="/archives">文章</a>
+        
+      
+        
+          <a href="/tags">标签</a>
+        
+      
+        
+          <a href="/post/about">关于</a>
+        
+      
+    </nav>
+  </div>
+</div>
+    </div>
+    <article role="main" class="hentry has-cover">
+      
+        <div class="entry-cover js-cover" data-src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/f3edbd41-2432-4909-8879-b70d7aece8d9.jpg?/radicalwzy" data-width="900" data-height="423" style="background-image:url(https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/f3edbd41-2432-4909-8879-b70d7aece8d9.jpg?/radicalwzy); height: 80vw;">
+          <h1 class="post-title">vue+vuex+vue-router进行导航守卫</h1>
+        </div>
+      
+      <h1 class="entry-title" itemprop="headline">vue+vuex+vue-router进行导航守卫</h1>
+      <div class="entry-meta">
+        <time class="updated" datetime="2019-10-29 17:22:07">2019-10-29</time>
+        <span class="author vcard">
+          4 min read
+        </span>
+      </div>
+      <div class="post-content yue">
+        <h1 id="使用vue-routervuex进行导航守卫">使用vue-router+vuex进行导航守卫</h1>
+<p>​		使用vue全家桶在做登录功能的时候，要实现登录后才能进到主页或者其他页面，不然都会跳转到登录页。但是Vuex一个不完美的地方：一但刷新页面没了，所以用到localstorage</p>
+<p>​		登录从接口获得token，要想刷新页面存在，使用localstorage缓存token</p>
+<p>utils/auth.js</p>
+<pre><code class="language-js">//token缓存
+export function setToken(token){
+    localStorage.setItem(&quot;token&quot;,token);
+}
+export function getToken(){
+    return localStorage.getItem(&quot;token&quot;);
+}
+export function removeToken(){
+    localStorage.removeItem(&quot;token&quot;);
+}
+</code></pre>
+<p>user.js</p>
+<pre><code class="language-js">import {get,post,post_json} from '../../http/axios'
+import {setToken,getToken,removeToken} from '../../utils/auth'
+export default {
+    namespaced:true,
+    state:{
+        token:getToken(),
+        info:{} //用户信息
+    },
+    getters:{
+
+    },
+    mutations:{
+        refreshInfo(state,info){
+            state.info = info;
+        },
+        refreshToken(state,token){
+            state.token = token;
+        }
+    },
+    actions:{
+        async login(context,payload){
+            //1.登录
+            let response = await post_json(&quot;/user/login&quot;,payload);
+            let token = response.data.token;
+            //2.将token缓存起来 localStorge
+            setToken(token);
+            //3.讲token维护到状态机中
+            context.commit(&quot;refreshToken&quot;,token);
+        },
+        //通过token获取info 用户信息
+        async getInfo(context,token){
+            let response = await get(&quot;/user/info&quot;,{token})
+            //将用户信息设置到info
+            context.commit(&quot;refreshInfo&quot;,response.data);
+        },
+        async logout(context){
+            //1.请求后台退出
+            await post('/user/logout')
+            //2.清理本地缓存
+            removeToken();
+            //3.清理store
+            context.commit('refreshToken','');
+            context.commit('refreshInfo',{})
+        }
+    }
+}
+</code></pre>
+<p>router.js</p>
+<pre><code class="language-js">import Vue from 'vue'
+import VueRouter from 'vue-router'
+// 管理页面
+import Manager from '../views/manager/Index'
+import Home from '../views/manager/Home'
+import Order from '../views/manager/Order'
+import User from '../views/manager/User'
+// 登录页面
+import Login from '../views/Login'
+import { getToken } from '../utils/auth'
+import { Toast } from 'vant'
+import store from '../store'
+
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path:&quot;/&quot;,
+    redirect:&quot;/manager/home&quot;
+  },
+  {
+    path: '/manager',
+    name: 'manager',
+    component: Manager,
+    beforeEnter: (to, from, next) =&gt; {  //属于路由自己的拦截器
+      let token = getToken();
+      if(token){
+        // 查询info
+        store.dispatch('user/info',token)
+        .then(()=&gt;{
+          // 当获取万用户信息之后才允许跳转
+          next();
+        })
+      } else {
+        Toast(&quot;token失效&quot;)
+        // 跳转到登录
+        next({path:'/login'})
+      }
+    },
+    children:[{
+      path: 'home',
+      component: Home,
+    },{
+      path: 'order',
+      component: Order,
+    },{
+      path: 'user',
+      component: User,
+    },{
+      path: 'address',
+      component: ()=&gt;import('../views/manager/address/Index') 
+    },{
+      path: 'product_list',
+      component: ()=&gt;import('../views/manager/product/List') 
+    },{
+      path: 'product_details',
+      component: ()=&gt;import('../views/manager/product/Details') 
+    },{
+      path: 'order_confirm',
+      component: ()=&gt;import('../views/manager/order/OrderConfirm') 
+    }]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+export default router
+
+</code></pre>
+<p>本来是拿到token登录info获取用户信息，但是忽略了一个点：获取为异步，进入后台主页的时候info可能没有获取到，会造成一个延迟。这里要确保info信息获取到，然后再跳转到后台主页。要想做到控制路由的跳转，这里用了导航守卫。在每一次路由跳转的时候拦截，但是不一定只跳转一个页面，多个页面都可能跳转。所以在vuex文档中找到了路由独享守卫，具体的配置到某一个路由上，确保进入主页能拿到info</p>
+
+      </div>
+      <div class="entry-block">
+        <div class="entry-tags">
+          
+            <a href="https://radicalwzy.github.io//tag/sXhDzTpUQ">
+              vue
+            </a>
+          
+            <a href="https://radicalwzy.github.io//tag/qb5GyQKUDW">
+              vue-router
+            </a>
+          
+            <a href="https://radicalwzy.github.io//tag/7BjPXIIt4">
+              axios
+            </a>
+          
+        </div>
+      </div>
+    </article>
+    
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>后一篇</h3>
+          <a href="https://radicalwzy.github.io//post/git-he-github">
+            <strong>git和github</strong>
+          </a>
+        </div>
+      </section>
+    
+
+    
+
+    <footer class="footer">
+  <div class="main">
+    <a href="https://radicalwzy.github.io/">
+      <img class="avatar" src="https://radicalwzy.github.io//images/avatar.png?v=1573472320479" alt="Radicalwzy">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      
+    </p>
+    <a class="footer-rss" href="https://radicalwzy.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
+
+<script src="https://radicalwzy.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
+</script>
+
+  </body>
+</html>

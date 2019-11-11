@@ -1,0 +1,262 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ajax,jquery-ajax,axios | Radicalwzy</title>
+<meta name="description" content="欢迎来到我的博客" />
+<link rel="shortcut icon" href="https://radicalwzy.github.io//favicon.ico?v=1573472320479">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+<link rel="stylesheet" href="https://radicalwzy.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="ajax,jquery-ajax,axios | Radicalwzy - Atom Feed" href="https://radicalwzy.github.io//atom.xml">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+  </head>
+  <body>
+    <div class="site-nav has-cover">
+      <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://radicalwzy.github.io/">
+        <span>Radicalwzy</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <nav class="info_nav">
+      
+        
+          <a href="/">首页</a>
+        
+      
+        
+          <a href="/archives">文章</a>
+        
+      
+        
+          <a href="/tags">标签</a>
+        
+      
+        
+          <a href="/post/about">关于</a>
+        
+      
+    </nav>
+  </div>
+</div>
+    </div>
+    <article role="main" class="hentry has-cover">
+      
+        <div class="entry-cover js-cover" data-src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/bae92901-545f-4b09-a7ff-6e4cc2c1f78b.jpg?/radicalwzy" data-width="900" data-height="423" style="background-image:url(https://radicalwzy.oss-accelerate.aliyuncs.com/image/2019-11-11/bae92901-545f-4b09-a7ff-6e4cc2c1f78b.jpg?/radicalwzy); height: 80vw;">
+          <h1 class="post-title">ajax,jquery-ajax,axios</h1>
+        </div>
+      
+      <h1 class="entry-title" itemprop="headline">ajax,jquery-ajax,axios</h1>
+      <div class="entry-meta">
+        <time class="updated" datetime="2019-09-20 16:41:29">2019-09-20</time>
+        <span class="author vcard">
+          3 min read
+        </span>
+      </div>
+      <div class="post-content yue">
+        <h1 id="ajaxjquery-ajaxaxios">Ajax，jquery-ajax，axios</h1>
+<h2 id="ajax">Ajax</h2>
+<p>AJAX = 异步 JavaScript 和 XML。</p>
+<p>原生Ajax请求数据的步骤:</p>
+<ol>
+<li>
+<pre><code class="language-js">//第一步，创建XMLHttpRequest对象
+var xmlHttp = new XMLHttpRequest();
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js">//第二步，注册回调函数
+xmlHttp.onreadystatechange =callback1;
+//{
+//判断交互是否成功
+// if (xmlHttp.readyState == 4)
+//获取服务器返回的数据
+//获取纯文本数据
+// if (xmlHttp.status == 200) {
+// 	var responseText = xmlHttp.responseText;
+// }
+//}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js">//第三步，配置请求信息，open()
+//get请求参数加在url之后
+//post请求
+xmlHttp.open(&quot;post&quot;, &quot;/ashx/myzhuye/Detail.ashx?methodName=GetAllComment&quot;, true);
+//post请求配置请求头信息
+xmlHttp.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js">//发送请求
+xmlrequest.send(null);
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js">//定义处理响应的回调函数
+function processResponse(){
+    //响应完成且响应正常
+    if(xmlrequest.readyState == 4){
+        if(xmlrequest.status == 200){
+            //信息已经成功返回，开始处理信息
+            var headers = 		 xmlrequest.getAllResponseHeaders();
+            //通过警告框输出相应头
+            alert(&quot;相应头的类型 &quot;+ typeof headers + &quot;\n&quot; + headers);
+            //在页面输出所有的相应头
+            document.getElementById(&quot;output&quot;).innerHTML = headers;
+        }else{
+			//页面不正常
+             window.alert(&quot;您所请求的页面异常。&quot;);
+		}
+	}
+}
+</code></pre>
+</li>
+</ol>
+<h2 id="jquery-ajax">jquery-ajax</h2>
+<pre><code>&lt;script&gt;
+    $(function(){
+        // var url = &quot;http://123.123.123.123:6677/address/findAddressAll&quot;;
+        /*
+        var param = {id:2}
+        var url = &quot;http://123.123.123.123:6677/address/findByCategoryId&quot;
+        $.get(url,{id:2},function(data,textStatus){
+            console.log(data,textStatus);
+        })
+        */
+        var url = &quot;http://123.123.123.123:6677/address/insertAddress&quot;;
+        var data = {
+            province:&quot;山西省&quot;,
+            city:&quot;太原市&quot;,
+            area:&quot;小店区&quot;,
+            address:&quot;长风街&quot;,
+            telephone:&quot;18822224444&quot;
+        }
+        // content-type, querystring
+        $.post(url,data,function(response,status){
+            console.log(response,status);
+        })
+    })
+&lt;/script&gt;
+
+$.ajax({
+   type: 'POST',
+   url: url,
+   data: data,
+   dataType: dataType,
+   success: function () {},
+   error: function () {}
+});
+</code></pre>
+<h2 id="axios">axios</h2>
+<pre><code class="language-js">axios({
+    method: 'post',
+    url: '/user/12345',
+    data: {
+        Name: 'zhangsan',
+        age: 21
+    }
+})
+.then(function (response) {
+    console.log(response);
+})
+.catch(function (error) {
+    console.log(error);
+});
+</code></pre>
+<p>据了解，发送请求还有fetch方法 ，但是并未了解。重点为：最好用的还是axios，现vue推荐也用axios发送请求。 aios本质上也是对原生XHR的封装，只不过它是Promise的实现版本，符合最新的ES规范</p>
+
+      </div>
+      <div class="entry-block">
+        <div class="entry-tags">
+          
+            <a href="https://radicalwzy.github.io//tag/7BjPXIIt4">
+              axios
+            </a>
+          
+            <a href="https://radicalwzy.github.io//tag/zW8Iy1Tnn">
+              JS
+            </a>
+          
+        </div>
+      </div>
+    </article>
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>前一篇</h3>
+          <a href="https://radicalwzy.github.io//post/dui-yu-axios-de-feng-zhuang">
+            <strong>对于axios的封装</strong>
+          </a>
+        </div>
+      </section>
+    
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>后一篇</h3>
+          <a href="https://radicalwzy.github.io//post/js-zhong-de-prototype__proto__-yu-constructor">
+            <strong>JS中的prototype、__proto__与constructor</strong>
+          </a>
+        </div>
+      </section>
+    
+
+    
+
+    <footer class="footer">
+  <div class="main">
+    <a href="https://radicalwzy.github.io/">
+      <img class="avatar" src="https://radicalwzy.github.io//images/avatar.png?v=1573472320479" alt="Radicalwzy">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      
+    </p>
+    <a class="footer-rss" href="https://radicalwzy.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
+
+<script src="https://radicalwzy.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
+</script>
+
+  </body>
+</html>
