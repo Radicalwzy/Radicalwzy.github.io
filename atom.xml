@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://radicalwzy.github.io/</id>
     <title>Radicalwzy</title>
-    <updated>2019-11-11T11:47:09.011Z</updated>
+    <updated>2019-11-13T04:40:45.452Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://radicalwzy.github.io/"/>
     <link rel="self" href="https://radicalwzy.github.io//atom.xml"/>
@@ -481,7 +481,7 @@ import {Toast} from 'vant'
 // 全局配置
 // axios.defaults.headers.common[&quot;token&quot;] = &quot;&quot;
 // axios.defaults.headers.post[&quot;Content-Type&quot;] = 'application/x-www-form-urlencoded;charset=UTF-8';
-axios.defaults.baseURL = 'http://47.93.251.248:6677';
+axios.defaults.baseURL = 'baseURL';
 
 
 // Add a response interceptor
