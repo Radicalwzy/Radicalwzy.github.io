@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>vue+vuex+vue-router进行导航守卫 | Radicalwzy</title>
 <meta name="description" content="欢迎来到我的博客" />
-<link rel="shortcut icon" href="https://radicalwzy.github.io//favicon.ico?v=1573620042782">
+<link rel="shortcut icon" href="https://radicalwzy.github.io//favicon.ico?v=1584449755184">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -62,13 +62,14 @@
       
       <h1 class="entry-title" itemprop="headline">vue+vuex+vue-router进行导航守卫</h1>
       <div class="entry-meta">
-        <time class="updated" datetime="2019-10-29 17:22:07">2019-10-29</time>
+        <time class="updated" datetime="2020-01-01 17:22:07">2020-01-01</time>
         <span class="author vcard">
           4 min read
         </span>
       </div>
       <div class="post-content yue">
-        <h1 id="使用vue-routervuex进行导航守卫">使用vue-router+vuex进行导航守卫</h1>
+        <!-- more -->
+<h1 id="使用vue-routervuex进行导航守卫">使用vue-router+vuex进行导航守卫</h1>
 <p>​		使用vue全家桶在做登录功能的时候，要实现登录后才能进到主页或者其他页面，不然都会跳转到登录页。但是Vuex一个不完美的地方：一但刷新页面没了，所以用到localstorage</p>
 <p>​		登录从接口获得token，要想刷新页面存在，使用localstorage缓存token</p>
 <p>utils/auth.js</p>
@@ -233,12 +234,21 @@ export default router
       </div>
     </article>
     
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>前一篇</h3>
+          <a href="https://radicalwzy.github.io//post/js-yun-xing-san-bu-qu">
+            <strong>JS运行三部曲</strong>
+          </a>
+        </div>
+      </section>
+    
     
       <section class="post-section prev-post">
         <div class="inner">
           <h3>后一篇</h3>
-          <a href="https://radicalwzy.github.io//post/git-he-github">
-            <strong>git和github</strong>
+          <a href="https://radicalwzy.github.io//post/dui-yu-axios-de-feng-zhuang">
+            <strong>对于axios的封装</strong>
           </a>
         </div>
       </section>
@@ -249,7 +259,7 @@ export default router
     <footer class="footer">
   <div class="main">
     <a href="https://radicalwzy.github.io/">
-      <img class="avatar" src="https://radicalwzy.github.io//images/avatar.png?v=1573620042782" alt="Radicalwzy">
+      <img class="avatar" src="https://radicalwzy.github.io//images/avatar.png?v=1584449755184" alt="Radicalwzy">
     </a>
     <div class="footer__social">
       

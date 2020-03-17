@@ -1,0 +1,244 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JS运行三部曲 | Radicalwzy</title>
+<meta name="description" content="欢迎来到我的博客" />
+<link rel="shortcut icon" href="https://radicalwzy.github.io//favicon.ico?v=1584449755184">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+<link rel="stylesheet" href="https://radicalwzy.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="JS运行三部曲 | Radicalwzy - Atom Feed" href="https://radicalwzy.github.io//atom.xml">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+  </head>
+  <body>
+    <div class="site-nav has-cover">
+      <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://radicalwzy.github.io/">
+        <span>Radicalwzy</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <nav class="info_nav">
+      
+        
+          <a href="/">首页</a>
+        
+      
+        
+          <a href="/archives">文章</a>
+        
+      
+        
+          <a href="/tags">标签</a>
+        
+      
+        
+          <a href="/post/about">关于</a>
+        
+      
+    </nav>
+  </div>
+</div>
+    </div>
+    <article role="main" class="hentry has-cover">
+      
+        <div class="entry-cover js-cover" data-src="https://radicalwzy.oss-accelerate.aliyuncs.com/image/2020-03-17/4501ec4e-f60b-49ad-820a-ecadc9b69530.jpg?x-oss-process" data-width="900" data-height="423" style="background-image:url(https://radicalwzy.oss-accelerate.aliyuncs.com/image/2020-03-17/4501ec4e-f60b-49ad-820a-ecadc9b69530.jpg?x-oss-process); height: 80vw;">
+          <h1 class="post-title">JS运行三部曲</h1>
+        </div>
+      
+      <h1 class="entry-title" itemprop="headline">JS运行三部曲</h1>
+      <div class="entry-meta">
+        <time class="updated" datetime="2020-03-06 20:52:32">2020-03-06</time>
+        <span class="author vcard">
+          3 min read
+        </span>
+      </div>
+      <div class="post-content yue">
+        <h1 id="js运行三部曲">JS运行三部曲</h1>
+<h2 id="1语法分析">1.语法分析</h2>
+<p>js代码运行是一条一条的解释，而在解释前要进行的工作 就是语法分析，对全部语句进行一步检查，判断是否符合基本语法规则。</p>
+<h2 id="2预编译">2.预编译</h2>
+<p>一切未经声明的变量都是全局变量，属于全局作用域window所有</p>
+<pre><code class="language-js">a=1;//不会报错
+//相当于在全局范围内
+var a = 1;
+
+function my(){
+    var a = b = 3;
+}
+//变量赋值从右到左，相当于3赋值给b，a的值等于b，b其实是未被声明的。所以这个b为全局变量，a为局部变量。
+</code></pre>
+<p>变量声明提升，函数声明整体提升</p>
+<pre><code class="language-js">var a = 1;
+console.log(a);// 1
+</code></pre>
+<pre><code class="language-js">console.log(a);
+var a = 1;
+//将a定义到输出下面，但是并不会报错。相当于
+var a;
+console.log(a);// undefined 因为声明提升但是赋值不会提升 
+a = 1;
+</code></pre>
+<pre><code class="language-js">function my(){
+    var b = 1;
+    console.log(b);// 1
+}
+my();
+</code></pre>
+<pre><code class="language-js">my();
+function my(){
+    var b = 1;
+    console.log(b);// 1 当函数被声明时他就被提到了作用域的顶端，而且是整个函数都被提升了
+}
+</code></pre>
+<h3 id="预编译四部曲">预编译四部曲</h3>
+<ol>
+<li>
+<p>创建AO对象</p>
+</li>
+<li>
+<p>找形参和变量声明，将变量和形参名作为AO属性名，值为undefined</p>
+</li>
+<li>
+<p>将实参值和形参统一</p>
+</li>
+<li>
+<p>在函数体里找函数声明。值赋予函数体</p>
+</li>
+</ol>
+<pre><code class="language-js">function my(a){
+    console.log(a);
+    var a = 123;
+    console.log(a);
+    function a(){}
+    console.log(a);
+    var b = function(){}
+    console.log(b);
+    function d(){};
+}
+my(1);
+</code></pre>
+<p>打印结果为</p>
+<pre><code class="language-js">function a(){}
+123;
+123;
+function b(){};
+</code></pre>
+<p>分析：</p>
+<p>在js代码执行前会创建一个GO对象，也就是全局作用域，而在每个函数执行前一刻会创建自己的AO对象，也称执行期上下文 。</p>
+<p>这个函数执行前，首先创建一个自己的AO对象（执行期上下文)</p>
+<pre><code class="language-js">AO{
+    
+}
+</code></pre>
+<pre><code class="language-js">AO{
+    a:undefined;
+    b:undefined;
+}
+</code></pre>
+<pre><code class="language-js">AO{
+    a:1;
+    b:undefined;
+}
+//a的实参为1.b无实参
+</code></pre>
+<pre><code class="language-js">AO{
+    a:function a (){};
+    b:undefined;
+    d:function d (){}
+}
+</code></pre>
+<p>找到函数声明并赋予，至于function b仅仅是一个函数表达式，并不是函数声明，至此，AO对象创建完毕，开始执行函数。</p>
+<p>声明的函数和变量在函数执行时忽略，因为都提升到了顶端</p>
+<p>对于 var a = 123; var b = function(){};这样的声明，虽然变量声明被提升了，但是这些语句拆分为：</p>
+<pre><code class="language-js">var a;
+a = 123;
+var b;
+b = function(){};
+</code></pre>
+<p>因此，var a 与var b被提升忽略不看，但是俩条赋值语句仍在原地，当解释执行到此时会理所当然地将值赋予给变量。</p>
+<h2 id="3解释执行">3.解释执行</h2>
+<p>预编译执行完毕后，js代码逐条执行 。</p>
+<!-- more -->
+
+      </div>
+      <div class="entry-block">
+        <div class="entry-tags">
+          
+            <a href="https://radicalwzy.github.io//tag/zW8Iy1Tnn">
+              JS
+            </a>
+          
+        </div>
+      </div>
+    </article>
+    
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>后一篇</h3>
+          <a href="https://radicalwzy.github.io//post/vuevuexvue-router-jin-xing-dao-hang-shou-wei">
+            <strong>vue+vuex+vue-router进行导航守卫</strong>
+          </a>
+        </div>
+      </section>
+    
+
+    
+
+    <footer class="footer">
+  <div class="main">
+    <a href="https://radicalwzy.github.io/">
+      <img class="avatar" src="https://radicalwzy.github.io//images/avatar.png?v=1584449755184" alt="Radicalwzy">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      
+    </p>
+    <a class="footer-rss" href="https://radicalwzy.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
+
+<script src="https://radicalwzy.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
+</script>
+
+  </body>
+</html>
